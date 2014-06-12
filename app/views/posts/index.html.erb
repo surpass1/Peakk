@@ -1,0 +1,26 @@
+<h1>Blog Posts</h1>
+<section>
+<% @posts.each do |post| %>
+	<% if can? :read, post %>
+	<article>
+		<header>
+			<hgroup>
+				<h2><%= link_to post.title, post %></h2>
+			</hgroup>
+			<%= post_summary(post) %>
+			<footer>
+				<author>By <%= link_to post.user.name, post.user %></author>
+				<time >Written on <%= post.created_at.to_date %></time>
+			</footer>
+    <% if can? :manage, post %>
+    	<nav><%= link_to 'Edit', edit_post_path(post) %>
+    	<%= link_to 'Destroy', post, confirm: 'Are you sure?', method: :delete %></nav>
+    <% end %>
+  </article>
+ <% end %>
+<% end %>
+</section>
+
+ <% if can? :manage, Post %>
+  <div><%= link_to 'New Post', new_post_path %></div>
+ <% end %>
